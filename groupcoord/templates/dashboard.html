@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #e4f0f6;
+  padding: 30px;
+  color: #172b4d;
+}
+
+h2, h3 {
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 30px;
+  margin-bottom: 25px;
+}
+
+h3 {
+  font-size: 22px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: #0FA4AF;
+}
+
+form {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+input, select, textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #dfe1e6;
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+button {
+  background-color: /*#1c2121*/ #003135;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #331f38;/*#0747a6*/
+}
+
+.member-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.member-input-group input {
+  flex-grow: 1;
+}
+
+.members-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.member-chip {
+  background-color: #deebff;
+  color: #0FA4AF;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: fadeIn 0.3s ease;
+}
+
+.member-chip span {
+  cursor: pointer;
+  font-weight: bold;
+  color: #ff4d4d;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.project-card {
+  position: relative;
+  background-color: #ffffff;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.project-card a {
+  text-decoration: none;
+  color: #0FA4AF;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.project-progress {
+  font-size: 14px;
+  color: #5e6c84;
+  margin-top: 6px;
+}
+
+.project-progress-container {
+  margin-top: 10px;
+}
+
+.project-progress-label {
+  font-size: 14px;
+  color: #5e6c84;
+  margin-bottom: 6px;
+}
+
+.project-progress-bar {
+  background-color: #e1e4e8;
+  height: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.project-progress-fill {
+  height: 100%;
+  background-color: #1c2121;
+  transition: width 0.4s ease;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background-color: #FF6363;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      background-color: #e9ecef;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    ul li a {
+      text-decoration: none;
+      font-weight: bold;
+      color: #0FA4AF;
+    }
+
+    .delete-project-btn {
+    background-color: #0FA4AF;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+
+  .delete-project-btn:hover {
+    background-color: #0FA4AF;
+  }
+
+  .center {
+      max-width: 720px;
+      margin: auto;
+    }
+
+    .notification-bell {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  font-size: 18px;
+  color: #d3d3d3;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.notification-bell:hover {
+  color: #0FA4AF; /* Highlight color on hover */
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #003135;
+  color: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-actions span {
+  font-size: 16px;
+  color: #d3d3d3;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #d9534f;
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn i {
+  font-size: 16px;
+}
+
+.logout-btn:hover {
+  background-color: #c9302c;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #d3d3d3;
+}
+
+  </style>
+  {% load widget_tweaks %}
+</head>
+<body>
+<!-- Header Section -->
+<header class="dashboard-header">
+  <h1>Dashboard</h1>
+  <div class="header-actions">
+    <a href="#" class="nav-link">Home</a>
+    <a href="#" class="nav-link">My Projects</a>
+    <a href="#" class="nav-link" id="profile-link">Profile</a>
+    <a href="#" class="nav-link">Help</a>
+    <span>Welcome, {{ request.user.username }}</span>
+    <a href="{% url 'logout' %}" class="logout-btn">
+      <i class="fa fa-sign-out"></i> Logout
+    </a>
+  </div>
+</header>
+
+  <div class="center">
+    <!-- <h2>Welcome {{ request.user.username }}</h2> -->
+
+    <h3>Create New Project</h3>
+    <form method="post" id="project-form">
+      {% csrf_token %}
+      
+      <!-- Display general form errors -->
+      {% if form.errors %}
+        <div style="color: red; margin-bottom: 15px; padding: 10px; background-color: #ffeeee; border-radius: 5px;">
+          <strong>Please correct these errors:</strong>
+          <ul>
+            {% for field, errors in form.errors.items %}
+              {% for error in errors %}
+                <li>{{ field|title }}: {{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      
+      <!-- Title Field -->
+      <div style="margin-bottom: 15px;">
+        {{ form.title.label_tag }}  
+        {{ form.title }}
+        {% if form.title.errors %}
+          <div style="color: red; font-size: 0.9em; margin-top: 5px;">
+            {% for error in form.title.errors %}
+              {{ error }}<br>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      <!-- Description Field -->
+      <div style="margin-bottom: 15px;">
+        {{ form.description.label_tag }}
+        {{ form.description }}
+        {% if form.description.errors %}
+          <div style="color: red; font-size: 0.9em; margin-top: 5px;">
+            {% for error in form.description.errors %}
+              {{ error }}<br>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    
+      <!-- Due Date Field -->
+      <div style="margin-bottom: 15px;">
+        {{ form.due_date.label_tag }}
+        {{ form.due_date|add_class:"date-input" }}
+        {% if form.due_date.errors %}
+          <div style="color: red; font-size: 0.9em; margin-top: 5px;">
+            {% for error in form.due_date.errors %}
+              {{ error }}<br>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    
+      <!-- Members Input -->
+      <div style="margin-bottom: 15px;">
+        <label>Invite Members (School Email)</label>
+        <div class="member-input-group">
+          <input type="email" id="member-email" placeholder="Enter school email (spu.ac.za)">
+          <!-- <button type="button" id="add-member" title="Add Member">➕</button> -->
+          <button type="button" id="add-member" title="Add Member" style="color: black; font-weight: bold; color: #fff; font-size: 15px;">+</button>
+  
+        </div>
+        <div id="members-list" class="members-list"></div>
+        <input type="hidden" name="members_data" id="members-data">
+      </div>
+    
+      <button type="submit" id="submit-btn">Create Project</button>
+    </form>
+
+    <div class="form-section">
+      <h4>Invite Members</h4>
+      <form method="post" id="invite-member-form">
+        {% csrf_token %}
+        <div class="member-input-group">
+          <select id="member-email" class="email">
+            <option value="" disabled selected>Select a user</option>
+            {% for user in all_users %}
+              <option value="{{ user.email }}">{{ user.email }}</option>
+            {% endfor %}
+          </select>
+          <button type="button" id="add-member" title="Add Member" style="color: white; font-weight: bold;">+</button>
+        </div>
+        <div id="members-list" class="members-list"></div>
+        <input type="hidden" name="members_data" id="members-data">
+        <button type="submit" name="invite_member_submit" class="task-btn">Invite Members</button>
+      </form>
+    </div>
+  </div>
+  
+
+  <h3>📁 Your Projects</h3>
+  <div class="project-grid">
+    {% for project in projects %}
+      <div class="project-card">
+        <div class="notification-bell">
+          <i class="fa fa-bell-o"></i> <!-- Font Awesome bell icon -->
+        </div>
+        {% if project.has_notification %}
+        <div class="notification-badge">!</div>
+        {% endif %}
+  
+        <a href="{% url 'project_detail' project.id %}" style="color: #1c2121;">{{ project.title }}</a>
+        <div class="project-progress-container">
+          <div class="project-progress-label">Progress: {{ project.progress|floatformat:0 }}%</div>
+          <div class="project-progress-bar">
+            <div class="project-progress-fill" style="width: {{ project.progress }}%;"></div>
+          </div>
+        </div>
+
+        <form method="post" class="delete-project-form" data-project-id="{{ project.id }}">
+          {% csrf_token %}
+          <button type="button" class="delete-project-btn" onclick="deleteProject(this)">
+            🗑 Delete Project
+          </button>
+        </form>
+
+      </div>
+    {% empty %}
+      <div class="project-card">
+        No projects yet. Start by creating one!
+      </div>
+    {% endfor %}
+  </div>
+  
+
+  <!-- JS for member adding -->
+  <script>
+const addBtn = document.getElementById('add-member');
+const emailInput = document.getElementById('member-email');
+const membersList = document.getElementById('members-list');
+const membersDataInput = document.getElementById('members-data');
+let memberEmails = [];
+
+function isValidSchoolEmail(email) {
+  return email.endsWith('@spu.ac.za'); // Replace with your actual domain
+}
+
+function updateHiddenInput() {
+  membersDataInput.value = JSON.stringify(memberEmails); // Update the hidden input with the JSON string
+}
+
+function addMemberChip(email) {
+  const chip = document.createElement('div');
+  chip.className = 'member-chip';
+  chip.innerHTML = `${email} <span onclick="removeChip(this, '${email}')">×</span>`;
+  membersList.appendChild(chip);
+}
+
+function removeChip(element, email) {
+  element.parentElement.remove();
+  memberEmails = memberEmails.filter(e => e !== email);
+  updateHiddenInput();
+}
+
+addBtn.addEventListener('click', (event) => {
+  event.preventDefault(); // Prevent the form from submitting prematurely
+  const email = emailInput.value.trim();
+  if (email && isValidSchoolEmail(email) && !memberEmails.includes(email)) {
+    memberEmails.push(email);
+    addMemberChip(email);
+    updateHiddenInput();
+    emailInput.value = '';
+  } else {
+    alert("Enter a valid and unique school email like 12345678@spu.ac.za");
+  }
+});
+
+  </script>
+
+<script>
+  function deleteProject(button) {
+    const form = button.closest('.delete-project-form');
+    const projectId = form.dataset.projectId;
+    const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    const confirmed = confirm('Are you sure you want to delete this project?');
+    if (!confirmed) return;
+
+    // Send AJAX request
+    fetch(`/delete_project/${projectId}/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken,
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Remove the project card from the UI
+          const projectCard = form.closest('.project-card');
+          projectCard.remove();
+        } else {
+          alert('Failed to delete the project. Please try again.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+      });
+  }
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.querySelectorAll('input[type="date"]').forEach(input => {
+      input.setAttribute('min', today);
+    });
+  });
+</script>
+
+<!-- Profile Modal -->
+<div id="profile-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); z-index: 1000; width: 400px;">
+  <h2 style="margin-top: 0;">Profile</h2>
+  <p><strong>Username:</strong> {{ request.user.username }}</p>
+  <p><strong>Email:</strong> {{ request.user.email }}</p>
+  <button style="background-color: #0FA4AF; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; margin-bottom: 20px;">Change Password</button>
+  
+  <h3>Project Stats</h3>
+  <ul style="list-style: none; padding: 0;">
+    <li><strong>Total Projects:</strong> {{ total_projects }}</li>
+    <li><strong>Created Projects:</strong> {{ created_projects }}</li>
+    <li><strong>Invited Projects:</strong> {{ invited_projects }}</li>
+  </ul>
+  
+  <button id="close-profile-modal" style="background-color: #d9534f; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 20px;">Close</button>
+</div>
+
+<!-- Overlay for Modal -->
+<div id="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+
+<script>
+  const profileLink = document.getElementById('profile-link');
+  const profileModal = document.getElementById('profile-modal');
+  const modalOverlay = document.getElementById('modal-overlay');
+  const closeProfileModal = document.getElementById('close-profile-modal');
+
+  profileLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    profileModal.style.display = 'block';
+    modalOverlay.style.display = 'block';
+  });
+
+  closeProfileModal.addEventListener('click', () => {
+    profileModal.style.display = 'none';
+    modalOverlay.style.display = 'none';
+  });
+
+  modalOverlay.addEventListener('click', () => {
+    profileModal.style.display = 'none';
+    modalOverlay.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
